@@ -1,6 +1,7 @@
 package com.aymane.jobmanagement;
 
 import com.aymane.jobmanagement.model.*;
+import com.aymane.jobmanagement.service.ApplicationManager;
 
 public class Main {
 
@@ -13,14 +14,8 @@ public class Main {
                 "aymane@gmail.com"
         );
 
-        Recruiter recruiter = new Recruiter(
-                2L,
-                "John",
-                "Smith",
-                "john@company.com"
-        );
 
-        JobOffer offer = new JobOffer(
+        JobOffer jobOffer = new JobOffer(
                 1L,
                 "Java Developer",
                 "Develop Java applications",
@@ -28,20 +23,43 @@ public class Main {
                 15000
         );
 
-        Application application = new Application(
-                1L,
-                candidate,
-                offer
+        ApplicationManager manager =
+                new ApplicationManager();
+
+        Application application =
+                manager.createApplication(
+                        1L,
+                        candidate,
+                        jobOffer
+                );
+
+        manager.saveApplication(application);
+
+        double score =
+                manager.calculateScore(
+                        candidate,
+                        jobOffer
+                );
+
+        System.out.println(
+                "Score: " + score
         );
 
-        application.display();
+        manager.sendEmail(
+                candidate,
+                "Your application has been received."
+        );
 
-        System.out.println("is Pending : " + application.isPending());
+        manager.sendSMS(
+                candidate,
+                "Your application has been received."
+        );
 
-        application.accept();
+        manager.generatePdf(application);
 
-        application.display();
-
-        System.out.println("is Pending : " + application.isPending());
+        manager.notifyRecruiter(
+                jobOffer,
+                "A new candidate has applied."
+        );
     }
 }
