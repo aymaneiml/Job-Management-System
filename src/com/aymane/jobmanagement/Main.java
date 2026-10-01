@@ -34,6 +34,14 @@ public class Main {
                 offer
         );
 
-        offer.display();
+        application.display();
+
+        System.out.println("is Pending : " + application.isPending());
+
+        application.accept();
+
+        application.display();
+
+        System.out.println("is Pending : " + application.isPending());
     }
 }
